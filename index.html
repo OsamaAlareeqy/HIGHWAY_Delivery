@@ -5,10 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>HIGHWAY Delivery - قائمة الأسعار</title>
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    /* ... الكود الخاص بـ CSS كما هو بدون تغيير (نفس الموجود عندك) ... */
-    /* تم حذفه هنا اختصارًا، لكنه سليم 100% إذا كنت تريده كاملاً انسخه من الكود السابق أو اطلبه مجددًا */
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="decoration dec-1"></div>
@@ -57,60 +54,6 @@
     <p>جميع الحقوق محفوظة © 2023 HIGHWAY Delivery</p>
   </footer>
 
-  <script>
-    // بيانات السلط
-    const saltAreas = [/* ... نفس البيانات السابقة ... */];
-
-    // بيانات عمان
-    const ammanAreas = [/* ... نفس البيانات السابقة ... */];
-
-    // تهيئة الصفحة
-    document.addEventListener('DOMContentLoaded', function () {
-      renderPricingCards('salt', saltAreas);
-      renderPricingCards('amman', ammanAreas);
-
-      document.getElementById('saltSearch').addEventListener('input', function (e) {
-        filterAreas('salt', saltAreas, e.target.value);
-      });
-
-      document.getElementById('ammanSearch').addEventListener('input', function (e) {
-        filterAreas('amman', ammanAreas, e.target.value);
-      });
-    });
-
-    function showPricing(city) {
-      document.getElementById('citySelection').style.display = 'none';
-      document.getElementById(`${city}Pricing`).style.display = 'block';
-    }
-
-    function goBack() {
-      document.getElementById('saltPricing').style.display = 'none';
-      document.getElementById('ammanPricing').style.display = 'none';
-      document.getElementById('citySelection').style.display = 'block';
-    }
-
-    function renderPricingCards(city, areas) {
-      const container = document.querySelector(`#${city}Pricing .pricing-grid`);
-      container.innerHTML = '';
-
-      areas.forEach(area => {
-        const card = document.createElement('div');
-        card.className = 'pricing-card';
-        card.innerHTML = `
-          <div class="area-name">${area.name}</div>
-          <span class="price">${area.price}</span>
-          <span class="estimated-time">${area.time}</span>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function filterAreas(city, areas, searchTerm) {
-      const filtered = areas.filter(area =>
-        area.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      renderPricingCards(city, filtered);
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>

@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HIGHWAY Delivery - قائمة الأسعار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --primary: #B7D341;
+            --dark: #3D3D3D;
+            --light: #EDECE4;
+            --radius: 12px;
+        }
+        
+        body {
+            background-color: #f8f9fa;
+            color: var(--dark);
+            min-height: 100vh;
+            background-image: linear-gradient(135deg, #f8f9fa 0%, #EDECE4 100%);
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        header {
+            background: var(--dark);
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--primary);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .logo {
+            color: var(--primary);
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .sub-logo {
+            color: var(--light);
+            font-size: 1.2rem;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+        }
+        
+        .city-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        
+        .city-card {
+            background: white;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            border: 2px solid transparent;
+            position: relative;
+        }
+        
+        .city-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--primary);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        
+        .city-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+        }
+        
+        .city-card:hover:before {
+            transform: scaleX(1);
+        }
+        
+        .city-header {
+            background: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .city-header:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: var(--primary);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .card-content p {
+            text-align: center;
+            color: #555;
+            line-height: 1.8;
+        }
+        
+        .pricing-section {
+            display: none;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-top: 2rem;
+            animation: fadeIn 0.4s ease;
+            position: relative;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .section-title {
+            color: var(--dark);
+            text-align: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--primary);
+            font-size: 1.8rem;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .back-btn {
+            background: var(--dark);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            transition: background 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .back-btn:hover {
+            background: #2d2d2d;
+            transform: translateX(-5px);
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .pricing-card {
+            background: var(--light);
+            padding: 1.2rem;
+            border-radius: var(--radius);
+            border-left: 4px solid var(--primary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pricing-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(120deg, transparent, rgba(183, 211, 65, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0,0,0,0.08);
+        }
+        
+        .pricing-card:hover:before {
+            transform: translateX(100%);
+        }
+        
+        .area-name {
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .price {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+            display: block;
+            margin-top: 0.3rem;
+        }
+        
+        .estimated-time {
+            background: var(--dark);
+            color: white;
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 0.5rem;
+        }
+        
+        .search-box {
+            display: block;
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            margin-bottom: 1.5rem;
+            border: 2px solid #ddd;
+            border-radius: 30px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .search-box:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(183, 211, 65, 0.2);
+        }
+        
+        footer {
+            background: var(--dark);
+            color: var(--light);
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-top: 4px solid var(--primary);
+            position: relative;
+        }
+        
+        footer:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), transparent, var(--primary));
+        }
+        
+        .decoration {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(183, 211, 65, 0.08);
+            border-radius: 50%;
+            z-index: 0;
+        }
+        
+        .dec-1 {
+            top: 20%;
+            left: 5%;
+        }
+        
+        .dec-2 {
+            bottom: 10%;
+            right: 7%;
+            width: 100px;
+            height: 100px;
+        }
+        
+        @media (max-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .city-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo {
+                font-size: 2rem;
+            }
+            
+            .section-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="decoration dec-1"></div>
+    <div class="decoration dec-2"></div>
+    
+    <header>
+        <div class="logo">HIGHWAY</div>
+        <div class="sub-logo">Delivery</div>
+    </header>
+
+    <div class="container">
+        <div id="citySelection">
+            <h1 class="section-title">اختر مدينة التوصيل</h1>
+            <div class="city-cards">
+                <div class="city-card" onclick="showPricing('salt')">
+                    <div class="city-header">مدينة السلط</div>
+                    <div class="card-content">
+                        <p>تصفح قائمة أسعار التوصيل لجميع مناطق السلط مع وقت التوصيل التقديري</p>
+                    </div>
+                </div>
+                <div class="city-card" onclick="showPricing('amman')">
+                    <div class="city-header">عمان</div>
+                    <div class="card-content">
+                        <p>تصفح قائمة أسعار التوصيل لمناطق عمان المحددة</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="saltPricing" class="pricing-section">
+            <button class="back-btn" onclick="goBack()">← العودة</button>
+            <h2 class="section-title">أسعار التوصيل في السلط</h2>
+            <input type="text" class="search-box" id="saltSearch" placeholder="ابحث عن منطقة معينة...">
+            <div class="pricing-grid">
+                <!-- مناطق السلط سيتم إضافتها جافاسكريبت -->
+            </div>
+        </div>
+
+        <div id="ammanPricing" class="pricing-section">
+            <button class="back-btn" onclick="goBack()">← العودة</button>
+            <h2 class="section-title">أسعار التوصيل في عمان</h2>
+            <input type="text" class="search-box" id="ammanSearch" placeholder="ابحث عن منطقة معينة...">
+            <div class="pricing-grid">
+                <!-- مناطق عمان سيتم إضافتها جافاسكريبت -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة © 2025 HIGHWAY Delivery</p>
+    </footer>
+
+    <script>
+        // بيانات مناطق السلط
+        const saltAreas = [
+            {name: "ضاحية الزهور", price: "1.50", time: "10-15 دقيقة"},
+            {name: "دبابنه", price: "1.50", time: "10-15 دقيقة"},
+            {name: "بركة العامرية", price: "1.50", time: "10-15 دقيقة"},
+            {name: "نقب الدبور العلوي", price: "2.00", time: "15-20 دقيقة"},
+            {name: "نقب الدبور السفلي", price: "2.50", time: "15-20 دقيقة"},
+            {name: "الدفاع المدني", price: "2.00", time: "15-20 دقيقة"},
+            {name: "البقعان", price: "2.00", time: "15-20 دقيقة"},
+            {name: "إسكان المهندسين", price: "2.00", time: "15-20 دقيقة"},
+            {name: "البحيرة", price: "2.00", time: "15-20 دقيقة"},
+            {name: "دوار الصوارفه", price: "2.00", time: "15-20 دقيقة"},
+            {name: "طلوع الخشامين السلالم", price: "2.00", time: "15-20 دقيقة"},
+            {name: "السلالم حي عصفور", price: "2.00", time: "15-20 دقيقة"},
+            {name: "جسر السلالم", price: "2.00", time: "15-20 دقيقة"},
+            {name: "وادي الشجرة", price: "2.00", time: "15-20 دقيقة"},
+            {name: "وسط البلد", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الميدان", price: "2.50", time: "20-25 دقيقة"},
+            {name: "شارع الخضر", price: "2.50", time: "20-25 دقيقة"},
+            {name: "ام عطيه", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الخندق", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الصوانيه", price: "2.50", time: "20-25 دقيقة"},
+            {name: "وادي الأكراد", price: "2.50", time: "20-25 دقيقة"},
+            {name: "العيزريه", price: "2.50", time: "20-25 دقيقة"},
+            {name: "وادي الريح", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الصافح", price: "2.50", time: "20-25 دقيقة"},
+            {name: "ابو القيقب", price: "2.50", time: "20-25 دقيقة"},
+            {name: "المدينة الرياضية", price: "2.50", time: "20-25 دقيقة"},
+            {name: "شارع الستين", price: "2.50", time: "20-25 دقيقة"},
+            {name: "جسر المغاريب", price: "3.00", time: "25-30 دقيقة"},
+            {name: "المغاريب", price: "3.00", time: "25-30 دقيقة"},
+            {name: "البقيع", price: "2.50", time: "20-25 دقيقة"},
+            {name: "إسكان الفردوس", price: "3.00", time: "25-30 دقيقة"},
+            {name: "ابو الردا", price: "3.00", time: "25-30 دقيقة"},
+            {name: "ام الزيتونة", price: "3.50", time: "30-35 دقيقة"},
+            {name: "الطرازين", price: "3.50", time: "30-35 دقيقة"},
+            {name: "القسام", price: "3.00", time: "25-30 دقيقة"},
+            {name: "بطنا", price: "3.50", time: "30-35 دقيقة"},
+            {name: "عيرا", price: "5.00", time: "40-45 دقيقة"},
+            {name: "يرقا", price: "5.00", time: "40-45 دقيقة"},
+            {name: "مدرسة السلط الثانوية", price: "2.50", time: "20-25 دقيقة"},
+            {name: "المنشية", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الميامين", price: "3.00", time: "25-30 دقيقة"},
+            {name: "جسر المناصير", price: "2.50", time: "20-25 دقيقة"},
+            {name: "طباعة العوامله", price: "2.50", time: "20-25 دقيقة"},
+            {name: "زي", price: "3.00", time: "25-30 دقيقة"},
+            {name: "علان", price: "3.50", time: "30-35 دقيقة"},
+            {name: "ام جوزة", price: "3.00", time: "25-30 دقيقة"},
+            {name: "الرميمين", price: "5.00", time: "40-45 دقيقة"},
+            {name: "كفر هودا", price: "3.50", time: "30-35 دقيقة"},
+            {name: "الصبيحي", price: "5.00", time: "40-45 دقيقة"},
+            {name: "ام العمد", price: "4.00", time: "35-40 دقيقة"},
+            {name: "الزعتري", price: "2.00", time: "15-20 دقيقة"},
+            {name: "اليزيديه", price: "1.50", time: "10-15 دقيقة"},
+            {name: "المضري", price: "2.50", time: "20-25 دقيقة"},
+            {name: "دعم الغزالات", price: "3.00", time: "25-30 دقيقة"},
+            {name: "سلعوف", price: "3.50", time: "30-35 دقيقة"},
+            {name: "الويسيه", price: "3.00", time: "25-30 دقيقة"},
+            {name: "جلعد", price: "5.00", time: "40-45 دقيقة"},
+            {name: "الميسه", price: "2.00", time: "15-20 دقيقة"},
+            {name: "حدائق ابو حسان", price: "3.00", time: "25-30 دقيقة"},
+            {name: "وادي السلط", price: "3.00", time: "25-30 دقيقة"},
+            {name: "وادي الشعيب التنقيه", price: "3.50", time: "30-35 دقيقة"},
+            {name: "وادي الشعيب الفحيص", price: "4.00", time: "35-40 دقيقة"},
+            {name: "وادي الشعيب المقام", price: "5.00", time: "40-45 دقيقة"},
+            {name: "وادي الشعيب الكنايات", price: "5.00", time: "40-45 دقيقة"},
+            {name: "ترخيص السلط", price: "1.00", time: "5-10 دقيقة"},
+            {name: "جامعة عمان الأهلية", price: "1.00", time: "5-10 دقيقة"},
+            {name: "السرو الجنوبي", price: "1.50", time: "10-15 دقيقة"},
+            {name: "السرو الجمارك", price: "1.50", time: "10-15 دقيقة"},
+            {name: "السرو إسكان طيبه", price: "1.50", time: "10-15 دقيقة"},
+            {name: "السرو إسكان آسيا", price: "2.00", time: "15-20 دقيقة"},
+            {name: "السرو حي السميرات", price: "2.00", time: "15-20 دقيقة"},
+            {name: "السرو الفروسية", price: "2.00", time: "15-20 دقيقة"},
+            {name: "السرو الجيعه", price: "2.00", time: "15-20 دقيقة"},
+            {name: "ام نعاج", price: "2.00", time: "15-20 دقيقة"},
+            {name: "دوار الكمالية الحمر", price: "2.50", time: "20-25 دقيقة"},
+            {name: "الفحيص", price: "3.00", time: "25-30 دقيقة"},
+            {name: "ماحص", price: "3.50", time: "30-35 دقيقة"},
+            {name: "دوار صويلح", price: "3.50", time: "30-35 دقيقة"},
+            {name: "عين الباشا", price: "3.00", time: "25-30 دقيقة"},
+            {name: "جامعة البقاء", price: "3.00", time: "25-30 دقيقة"}
+        ];
+
+        // بيانات مناطق عمان
+        const ammanAreas = [
+            {name: "جبيهه", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "ابو نصير", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "شارع الأردن", price: "5.50 د.أ", time: "40-50 دقيقة"},
+            {name: "شارع الجامعة", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "دوار الواحة", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "دابوق", price: "3.50 د.أ", time: "25-35 دقيقة"},
+            {name: "خلدا", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "الجاردنز", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "دوار الداخلية", price: "6.00 د.أ", time: "45-55 دقيقة"},
+            {name: "الثامن", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "السابع", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "السادس", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "تلاع العلي", price: "5.00 د.أ", time: "35-45 دقيقة"}
+        ];
+
+        // تهيئة الصفحة
+        document.addEventListener('DOMContentLoaded', function() {
+            renderPricingCards('salt', saltAreas);
+            renderPricingCards('amman', ammanAreas);
+            
+            // إضافة وظيفة البحث لمناطق السلط
+            document.getElementById('saltSearch').addEventListener('input', function(e) {
+                filterAreas('salt', saltAreas, e.target.value);
+            });
+            
+            // إضافة وظيفة البحث لمناطق عمان
+            document.getElementById('ammanSearch').addEventListener('input', function(e) {
+                filterAreas('amman', ammanAreas, e.target.value);
+            });
+        });
+
+        // عرض قائمة الأسعار
+        function showPricing(city) {
+            document.getElementById('citySelection').style.display = 'none';
+            document.getElementById(`${city}Pricing`).style.display = 'block';
+        }
+
+        // العودة للخيارات الرئيسية
+        function goBack() {
+            document.getElementById('saltPricing').style.display = 'none';
+            document.getElementById('ammanPricing').style.display = 'none';
+            document.getElementById('citySelection').style.display = 'block';
+        }
+
+        // عرض بطاقات الأسعار
+        function renderPricingCards(city, areas) {
+            const container = document.querySelector(`#${city}Pricing .pricing-grid`);
+            container.innerHTML = '';
+            
+            areas.forEach(area => {
+                const card = document.createElement('div');
+                card.className = 'pricing-card';
+                card.innerHTML = `
+                    <div class="area-name">${area.name}</div>
+                    <span class="price">${area.price}</span>
+                    <span class="estimated-time">${area.time}</span>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // فلترة المناطق حسب البحث
+        function filterAreas(city, areas, searchTerm) {
+            const filtered = areas.filter(area => 
+                area.name.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            renderPricingCards(city, filtered);
+        }
+    </script>
+</body>
+</html>

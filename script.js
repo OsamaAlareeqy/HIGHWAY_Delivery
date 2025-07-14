@@ -1,5 +1,4 @@
 
-// بيانات مناطق السلط
 const saltAreas = [
  {name: "ضاحية الزهور", price: "1.50", time: "10-15 دقيقة"},
             {name: "دبابنه", price: "1.50", time: "10-15 دقيقة"},
@@ -83,15 +82,22 @@ const saltAreas = [
             {name: "جامعة البقاء", price: "3.00", time: "25-30 دقيقة"}
 ];
 
-// بيانات مناطق عمان
 const ammanAreas = [
-    {name: "جبيهه", price: "4.00 د.أ", time: "30-40 دقيقة"},
-    {name: "ابو نصير", price: "5.00 د.أ", time: "35-45 دقيقة"},
-    {name: "خلدا", price: "4.00 د.أ", time: "30-40 دقيقة"}
-    // يمكنك إضافة باقي البيانات هنا...
+            {name: "جبيهه", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "ابو نصير", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "شارع الأردن", price: "5.50 د.أ", time: "40-50 دقيقة"},
+            {name: "شارع الجامعة", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "دوار الواحة", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "دابوق", price: "3.50 د.أ", time: "25-35 دقيقة"},
+            {name: "خلدا", price: "4.00 د.أ", time: "30-40 دقيقة"},
+            {name: "الجاردنز", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "دوار الداخلية", price: "6.00 د.أ", time: "45-55 دقيقة"},
+            {name: "الثامن", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "السابع", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "السادس", price: "5.00 د.أ", time: "35-45 دقيقة"},
+            {name: "تلاع العلي", price: "5.00 د.أ", time: "35-45 دقيقة"}
 ];
 
-// تهيئة الصفحة
 document.addEventListener('DOMContentLoaded', function () {
     renderPricingCards('salt', saltAreas);
     renderPricingCards('amman', ammanAreas);
@@ -105,20 +111,17 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// عرض قائمة الأسعار
 function showPricing(city) {
     document.getElementById('citySelection').style.display = 'none';
     document.getElementById(`${city}Pricing`).style.display = 'block';
 }
 
-// العودة للقائمة الرئيسية
 function goBack() {
     document.getElementById('saltPricing').style.display = 'none';
     document.getElementById('ammanPricing').style.display = 'none';
     document.getElementById('citySelection').style.display = 'block';
 }
 
-// إنشاء البطاقات بناءً على المناطق
 function renderPricingCards(city, areas) {
     const container = document.querySelector(`#${city}Pricing .pricing-grid`);
     container.innerHTML = '';
@@ -135,7 +138,6 @@ function renderPricingCards(city, areas) {
     });
 }
 
-// فلترة المناطق حسب البحث
 function filterAreas(city, areas, searchTerm) {
     const filtered = areas.filter(area =>
         area.name.toLowerCase().includes(searchTerm.toLowerCase())
